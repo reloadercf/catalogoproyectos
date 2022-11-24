@@ -1,23 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { routerNoAuth } from "./noauth/routerNoAuth";
+import { routerAuth } from "./auth/routerAuth";
+import {RouterProvider,
+} from "react-router-dom";
 
 function App() {
+  const [user, setUser] = useState({"mail":"carlos@espanta.com"});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {user?<RouterProvider router={routerAuth} />:<RouterProvider router={routerNoAuth} />}
     </div>
   );
 }
