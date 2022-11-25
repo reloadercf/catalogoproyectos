@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Character from "./Character"
-export default function DataLovers() {
+
+export default function DataLovers({user}) {
   const [characters, setCharacters]=useState(null)
   const [typeFilter, setTypeFilter]=useState(null)
-  const [dataRender, setDataRender]=useState(null)
+
   // funcion, cuando lo ejecuto
   useEffect(()=>{
     fetch('https://rickandmortyapi.com/api/character')
@@ -16,25 +17,21 @@ export default function DataLovers() {
     setTypeFilter(e.target.value)
   }
 
-
-  const filterData=()=>{
+  const filteredData = useMemo(()=>{
     if(typeFilter){
       return characters.filter((oneCharacter)=>oneCharacter.species===typeFilter)
     }
-  }
-
-  useEffect(()=>{
-    setDataRender(filterData());
   },[typeFilter])
 
   return (
     <div>
-        <h2>Este es mi proyecto de DL</h2>
+        <h2>Este es mi proyecto de DL {user.mail}</h2>
         <select onChange={handleSelectFilter}>
           <option>Human</option>
           <option>Alien</option>
         </select>
-        {characters?typeFilter===null?characters.map(character=><Character character={character} key={character.id} />):dataRender?dataRender.map(character=><Character character={character} key={character.id} />):null:null }
+        {characters&&typeFilter===null?characters.map(character=><Character character={character} key={character.id} />):null }
+        {typeFilter&&filteredData.map(character=><Character character={character} key={character.id} />)}
     </div>
   )
 }

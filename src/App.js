@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div>
-      {user?<RouterProvider router={routerAuth} />:<RouterProvider router={routerNoAuth} />}
+      {user?<RouterProvider router={routerAuth(user)} />:<RouterProvider router={routerNoAuth} />}
     </div>
   );
 }
